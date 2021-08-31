@@ -12,9 +12,10 @@ namespace Microsoft.Maui
 		/// </summary>
 		IView? Content { get; }
 
+		// TODO ezhart Probably should just drop Root
 		IView? Root { get; }
 
-		// TODO ezhart Document thiss
+		// TODO ezhart Document this
 		Size CrossPlatformMeasure(double widthConstraint, double heightConstraint);
 		Size CrossPlatformArrange(Rectangle bounds);
 	}
