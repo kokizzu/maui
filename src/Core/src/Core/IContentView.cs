@@ -8,12 +8,14 @@ namespace Microsoft.Maui
 	public interface IContentView : IView
 	{
 		/// <summary>
-		/// Gets the view that contains the actual contents of this view.
+		/// Gets the content of this view.
 		/// </summary>
-		IView? Content { get; }
+		object? Content { get; }
 
-		// TODO ezhart Probably should just drop Root
-		IView? Root { get; }
+		/// <summary>
+		/// Gets the content of this view it will be rendered in the user interface.
+		/// </summary>
+		IView? PresentedContent { get; }
 
 		// TODO ezhart Document this
 		Size CrossPlatformMeasure(double widthConstraint, double heightConstraint);

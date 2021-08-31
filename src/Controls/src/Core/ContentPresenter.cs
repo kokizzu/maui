@@ -21,8 +21,8 @@ namespace Microsoft.Maui.Controls
 			set { SetValue(ContentProperty, value); }
 		}
 
-		IView IContentView.Content => Content;
-		IView IContentView.Root => Content;
+		object IContentView.Content => Content;
+		IView IContentView.PresentedContent => Content;
 
 		protected override void LayoutChildren(double x, double y, double width, double height)
 		{
@@ -96,7 +96,7 @@ namespace Microsoft.Maui.Controls
 
 		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
 		{
-			var root = (this as IContentView).Root;
+			var root = (this as IContentView).PresentedContent;
 			var padding = Padding;
 
 			var contentSize = Size.Zero;
@@ -111,7 +111,7 @@ namespace Microsoft.Maui.Controls
 
 		Size IContentView.CrossPlatformArrange(Rectangle bounds)
 		{
-			if ((this as IContentView).Root is IView view)
+			if ((this as IContentView).PresentedContent is IView view)
 			{
 				var padding = Padding;
 

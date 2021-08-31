@@ -7,8 +7,8 @@ namespace Microsoft.Maui.Controls
 {
 	public partial class ScrollView : IScrollView, IContentView
 	{
-		IView IContentView.Content => Content;
-		IView IContentView.Root => Content;
+		object IContentView.Content => Content;
+		IView IContentView.PresentedContent => Content;
 
 		double IScrollView.HorizontalOffset
 		{
