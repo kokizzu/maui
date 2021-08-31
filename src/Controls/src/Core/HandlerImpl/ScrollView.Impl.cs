@@ -8,6 +8,7 @@ namespace Microsoft.Maui.Controls
 	public partial class ScrollView : IScrollView, IContentView
 	{
 		IView IContentView.Content => Content;
+		IView IContentView.Root => Content;
 
 		double IScrollView.HorizontalOffset
 		{
@@ -48,7 +49,7 @@ namespace Microsoft.Maui.Controls
 			// Account for the ScrollView's margins and use the rest of the available space to measure the actual Content
 			var contentWidthConstraint = widthConstraint - Margin.HorizontalThickness;
 			var contentHeightConstraint = heightConstraint - Margin.VerticalThickness;
-			MeasureContent(contentWidthConstraint, contentHeightConstraint);
+			(this as IContentView).CrossPlatformMeasure(contentWidthConstraint, contentHeightConstraint);
 
 			// Now measure the ScrollView itself (ComputeDesiredSize will account for the ScrollView margins)
 			var defaultSize = this.ComputeDesiredSize(widthConstraint, heightConstraint);
@@ -66,11 +67,11 @@ namespace Microsoft.Maui.Controls
 			return DesiredSize;
 		}
 
-		void MeasureContent(double contentWidthConstraint, double contentHeightConstraint)
+		Size IContentView.CrossPlatformMeasure(double contentWidthConstraint, double contentHeightConstraint)
 		{
 			if (Content is not IView content)
 			{
-				return;
+				return Content.DesiredSize;
 			}
 
 			switch (Orientation)
@@ -91,6 +92,8 @@ namespace Microsoft.Maui.Controls
 
 			content.Measure(contentWidthConstraint, contentHeightConstraint);
 			ContentSize = content.DesiredSize;
+
+			return ContentSize;
 		}
 
 		protected override Size ArrangeOverride(Rectangle bounds)
@@ -100,7 +103,11 @@ namespace Microsoft.Maui.Controls
 
 			Frame = this.ComputeFrame(bounds);
 			Handler?.NativeArrange(Frame);
+			return Frame.Size;
+		}
 
+		Size IContentView.CrossPlatformArrange(Rectangle bounds)
+		{
 			if (Content is IView content)
 			{
 				// Normally we'd just want the content to be arranged within the ContentView's Frame,
@@ -113,7 +120,7 @@ namespace Microsoft.Maui.Controls
 					Math.Max(Frame.Height, content.DesiredSize.Height)));
 			}
 
-			return Frame.Size;
+			return bounds.Size;
 		}
 	}
 }

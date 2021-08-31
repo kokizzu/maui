@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Maui
 {
-	public class PagePanel : Panel
+	public class ContentPanel : Panel
 	{
 		internal Func<double, double, Size>? CrossPlatformMeasure { get; set; }
 		internal Func<Rectangle, Size>? CrossPlatformArrange { get; set; }

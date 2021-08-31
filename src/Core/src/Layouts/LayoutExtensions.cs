@@ -5,6 +5,8 @@ using static Microsoft.Maui.Primitives.Dimension;
 
 namespace Microsoft.Maui.Layouts
 {
+	// TODO ezhart This should probably be ViewExensions
+	// It's weird to have to include a Layouts static class for non-layout stuff
 	public static class LayoutExtensions
 	{
 		public static Size ComputeDesiredSize(this IView view, double widthConstraint, double heightConstraint)

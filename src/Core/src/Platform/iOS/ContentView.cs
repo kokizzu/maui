@@ -4,7 +4,7 @@ using Microsoft.Maui.Graphics;
 
 namespace Microsoft.Maui
 {
-	public class PageView : MauiView
+	public class ContentView : MauiView
 	{
 		public override CGSize SizeThatFits(CGSize size)
 		{

@@ -7,28 +7,45 @@ namespace Microsoft.Maui.Controls
 	public partial class ContentPage : IContentView, HotReload.IHotReloadableView
 	{
 		IView IContentView.Content => Content;
+		IView IContentView.Root => Content;
 
 		protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
 		{
-			if (Content is IView view)
-			{
-				_ = view.Measure(widthConstraint, heightConstraint);
-			}
-
-			return new Size(widthConstraint, heightConstraint);
+			DesiredSize = this.ComputeDesiredSize(widthConstraint, heightConstraint);
+			return DesiredSize;
 		}
 
 		protected override Size ArrangeOverride(Rectangle bounds)
 		{
 			Frame = this.ComputeFrame(bounds);
+			Handler?.NativeArrange(Frame);
+			return Frame.Size;
+		}
 
-			if (Content is IView view)
+		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
+		{
+			var root = (this as IContentView).Root;
+			var padding = Padding;
+
+			if (root != null)
 			{
-				// TODO ezhart 2021-08-07 When we implement Padding for the ContentPage new layout stuff, the padding will adjust this rectangle
-				_ = view.Arrange(new Rectangle(0, 0, Frame.Width, Frame.Height));
+				_ = root.Measure(widthConstraint - padding.HorizontalThickness, heightConstraint - padding.VerticalThickness);
 			}
 
-			return Frame.Size;
+			return new Size(widthConstraint, heightConstraint);
+		}
+
+		Size IContentView.CrossPlatformArrange(Rectangle bounds)
+		{
+			if ((this as IContentView).Root is IView view)
+			{
+				var padding = Padding;
+
+				_ = view.Arrange(new Rectangle(padding.Left, padding.Top,
+					bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness));
+			}
+
+			return bounds.Size;
 		}
 
 		protected override void InvalidateMeasureOverride()

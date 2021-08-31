@@ -6,26 +6,26 @@ using Android.Views;
 
 namespace Microsoft.Maui.Handlers
 {
-	// TODO ezhart At this point, PageViewGroup is almost exactly a clone of LayoutViewGroup; we may be able to drop this class entirely
-	public class PageViewGroup : ViewGroup
+	// TODO ezhart At this point, this is almost exactly a clone of LayoutViewGroup; we may be able to drop this class entirely
+	public class ContentViewGroup : ViewGroup
 	{
-		public PageViewGroup(Context context) : base(context)
+		public ContentViewGroup(Context context) : base(context)
 		{
 		}
 
-		public PageViewGroup(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+		public ContentViewGroup(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
 		{
 		}
 
-		public PageViewGroup(Context context, IAttributeSet attrs) : base(context, attrs)
+		public ContentViewGroup(Context context, IAttributeSet attrs) : base(context, attrs)
 		{
 		}
 
-		public PageViewGroup(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+		public ContentViewGroup(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
 		{
 		}
 
-		public PageViewGroup(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+		public ContentViewGroup(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
 		{
 		}
 

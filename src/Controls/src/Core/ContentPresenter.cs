@@ -4,7 +4,7 @@ using Microsoft.Maui.Graphics;
 
 namespace Microsoft.Maui.Controls
 {
-	public class ContentPresenter : Compatibility.Layout
+	public class ContentPresenter : Compatibility.Layout, IContentView
 	{
 		public static BindableProperty ContentProperty = BindableProperty.Create(nameof(Content), typeof(View),
 			typeof(ContentPresenter), null, propertyChanged: OnContentChanged);
@@ -20,6 +20,9 @@ namespace Microsoft.Maui.Controls
 			get { return (View)GetValue(ContentProperty); }
 			set { SetValue(ContentProperty, value); }
 		}
+
+		IView IContentView.Content => Content;
+		IView IContentView.Root => Content;
 
 		protected override void LayoutChildren(double x, double y, double width, double height)
 		{
@@ -89,6 +92,34 @@ namespace Microsoft.Maui.Controls
 				self.InternalChildren.Add(newView);
 				newView.ParentOverride = await TemplateUtilities.FindTemplatedParentAsync((Element)bindable);
 			}
+		}
+
+		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
+		{
+			var root = (this as IContentView).Root;
+			var padding = Padding;
+
+			var contentSize = Size.Zero;
+
+			if (root != null)
+			{
+				contentSize = root.Measure(widthConstraint, heightConstraint);
+			}
+
+			return contentSize.AddPadding(padding);
+		}
+
+		Size IContentView.CrossPlatformArrange(Rectangle bounds)
+		{
+			if ((this as IContentView).Root is IView view)
+			{
+				var padding = Padding;
+
+				_ = view.Arrange(new Rectangle(padding.Left, padding.Top,
+					bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness));
+			}
+
+			return bounds.Size;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Layouts;
 
 namespace Microsoft.Maui.Controls
 {
@@ -72,5 +73,31 @@ namespace Microsoft.Maui.Controls
 		bool IBorderElement.IsBorderColorSet() => IsSet(BorderColorProperty);
 
 		bool IBorderElement.IsBorderWidthSet() => false;
+
+		//protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
+		//{
+		//	if (Content is IView view)
+		//	{
+		//		_ = view.Measure(widthConstraint, heightConstraint);
+		//		DesiredSize = view.DesiredSize;
+		//		return view.DesiredSize; // TODO ezhart obvs still needs padding
+		//	}
+
+		//	// TODO ezhart even if content isn't set, this should really return a size that includes the padding
+		//	return Size.Zero;
+		//}
+
+		//protected override Size ArrangeOverride(Rectangle bounds)
+		//{
+		//	Frame = this.ComputeFrame(bounds);
+
+		//	if (Content is IView view)
+		//	{
+		//		// TODO ezhart 2021-08-07 When we implement Padding for the ContentPage new layout stuff, the padding will adjust this rectangle
+		//		_ = view.Arrange(new Rectangle(0, 0, Frame.Width, Frame.Height));
+		//	}
+
+		//	return Frame.Size;
+		//}
 	}
 }
