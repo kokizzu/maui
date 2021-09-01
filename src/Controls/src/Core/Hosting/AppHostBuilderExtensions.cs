@@ -46,6 +46,7 @@ namespace Microsoft.Maui.Controls.Hosting
 #endif
 #if __ANDROID__ 
 			{ typeof(NavigationPage), typeof(Controls.Handlers.NavigationPageHandler) },
+			{ typeof(ImageButton), typeof(ImageButtonHandler) },
 #endif
 		};
 

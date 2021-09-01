@@ -10,7 +10,7 @@
     <MauiPlatforms Condition="'$(Packing)' == 'true'">$(MauiPlatforms);$(WindowsMauiPlatforms)</MauiPlatforms>
     <MauiPlatforms Condition="'$(BuildForWinUI)' == 'true'">$(WindowsMauiPlatforms)</MauiPlatforms>
     <MauiPlatforms Condition="'$(BuildForAndroid)' == 'true'">net6.0-android</MauiPlatforms>
-
+    <MauiPlatforms>net6.0-android</MauiPlatforms>
     <!-- Work around the IDE not properly handling the NU1703 warning -->
     <MauiPlatformsNoMacCat>net6.0-ios;net6.0-android</MauiPlatformsNoMacCat>
     <MauiPlatformsNoMacCat Condition="'$(BuildForWinUI)' == 'true'">$(MauiPlatforms)</MauiPlatformsNoMacCat>
@@ -18,6 +18,7 @@
 
     <!-- This is used to easily build for a specific target to make the IDE work a bit better  -->   
     <NonNet6Platforms>Xamarin.iOS10;MonoAndroid10.0</NonNet6Platforms>
+    <NonNet6Platforms>MonoAndroid10.0</NonNet6Platforms>
     <NonNet6EssentialsPlatforms>netstandard2.0;netstandard2.1;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;tizen40;Xamarin.Mac20;</NonNet6EssentialsPlatforms>
     <NonNet6EssentialsPlatforms Condition=" '$(OS)' == 'Windows_NT'">$(NonNet6EssentialsPlatforms);uap10.0.16299;</NonNet6EssentialsPlatforms>
 
