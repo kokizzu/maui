@@ -24,12 +24,12 @@ namespace Microsoft.Maui.Controls
 
 		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
 		{
-			var root = (this as IContentView).PresentedContent;
+			var content = (this as IContentView).PresentedContent;
 			var padding = Padding;
 
-			if (root != null)
+			if (content != null)
 			{
-				_ = root.Measure(widthConstraint - padding.HorizontalThickness, heightConstraint - padding.VerticalThickness);
+				_ = content.Measure(widthConstraint - padding.HorizontalThickness, heightConstraint - padding.VerticalThickness);
 			}
 
 			return new Size(widthConstraint, heightConstraint);
@@ -37,14 +37,7 @@ namespace Microsoft.Maui.Controls
 
 		Size IContentView.CrossPlatformArrange(Rectangle bounds)
 		{
-			if ((this as IContentView).PresentedContent is IView view)
-			{
-				var padding = Padding;
-
-				_ = view.Arrange(new Rectangle(padding.Left, padding.Top,
-					bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness));
-			}
-
+			this.ArrangeContent(bounds);
 			return bounds.Size;
 		}
 
