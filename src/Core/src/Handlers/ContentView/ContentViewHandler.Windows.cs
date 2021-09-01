@@ -6,15 +6,15 @@ namespace Microsoft.Maui.Handlers
 {
     public partial class ContentViewHandler : ViewHandler<IContentView, ContentPanel>
     {
-        public override void SetVirtualView(IContentView view)
+        public override void SetVirtualView(IView view)
         {
             base.SetVirtualView(view);
 
             _ = NativeView ?? throw new InvalidOperationException($"{nameof(NativeView)} should have been set by base class.");
             _ = VirtualView ?? throw new InvalidOperationException($"{nameof(VirtualView)} should have been set by base class.");
 
-            NativeView.CrossPlatformMeasure = VirtualView.Measure;
-            NativeView.CrossPlatformArrange = VirtualView.Arrange;
+            NativeView.CrossPlatformMeasure = VirtualView.CrossPlatformMeasure;
+            NativeView.CrossPlatformArrange = VirtualView.CrossPlatformArrange;
         }
 
         void UpdateContent()
@@ -25,11 +25,11 @@ namespace Microsoft.Maui.Handlers
 
             NativeView.Children.Clear();
 
-            if (VirtualView is IContentView cv && cv.Content is IView view)
+            if (VirtualView.PresentedContent is IView view)
                 NativeView.Children.Add(view.ToNative(MauiContext));
         }
 
-        protected override PagePanel CreateNativeView()
+        protected override ContentPanel CreateNativeView()
         {
             if (VirtualView == null)
             {
@@ -38,8 +38,8 @@ namespace Microsoft.Maui.Handlers
 
             var view = new ContentPanel
 			{
-                CrossPlatformMeasure = VirtualView.Measure,
-                CrossPlatformArrange = VirtualView.Arrange
+                CrossPlatformMeasure = VirtualView.CrossPlatformMeasure,
+                CrossPlatformArrange = VirtualView.CrossPlatformArrange
             };
 
             return view;
