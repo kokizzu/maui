@@ -17,8 +17,8 @@ namespace Microsoft.Maui
 		{
 			return new ContentView
 			{
-				CrossPlatformArrange = ((IView)view).Arrange,
-				CrossPlatformMeasure = ((IView)view).Measure
+				CrossPlatformArrange = ((IContentView)view).CrossPlatformArrange,
+				CrossPlatformMeasure = ((IContentView)view).CrossPlatformMeasure
 			};
 		}
 

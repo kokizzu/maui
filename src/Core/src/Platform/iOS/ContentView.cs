@@ -8,7 +8,17 @@ namespace Microsoft.Maui
 	{
 		public override CGSize SizeThatFits(CGSize size)
 		{
-			return size;
+			if (CrossPlatformMeasure == null)
+			{
+				return base.SizeThatFits(size);
+			}
+
+			var width = size.Width;
+			var height = size.Height;
+
+			var crossPlatformSize = CrossPlatformMeasure(width, height);
+
+			return crossPlatformSize.ToCGSize();
 		}
 
 		public override void LayoutSubviews()

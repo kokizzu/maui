@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.Maui.Graphics;
-using UIKit;
 using NativeView = UIKit.UIView;
 
 namespace Microsoft.Maui.Handlers
 {
-	public partial class ContentViewHandler : ViewHandler<IContentView, ContentView>, INativeViewHandler
+	public partial class ContentViewHandler : ViewHandler<IContentView, ContentView>
 	{
-		PageViewController? _pageViewController;
-		UIViewController? INativeViewHandler.ViewController => _pageViewController;
-
 		protected override ContentView CreateNativeView()
 		{
-			_ = VirtualView ?? throw new InvalidOperationException($"{nameof(VirtualView)} must be set to create a LayoutView");
+			_ = VirtualView ?? throw new InvalidOperationException($"{nameof(VirtualView)} must be set to create a {nameof(ContentView)}");
 			_ = MauiContext ?? throw new InvalidOperationException($"{nameof(MauiContext)} cannot be null");
 
-			_pageViewController = new PageViewController(VirtualView, this.MauiContext);
-
-			if (_pageViewController.CurrentNativeView is ContentView pv)
-				return pv;
-
-			throw new InvalidOperationException($"PageViewController.View must be a PageView");
+			return new ContentView
+			{
+				CrossPlatformMeasure = VirtualView.CrossPlatformMeasure,
+				CrossPlatformArrange = VirtualView.CrossPlatformArrange
+			};
 		}
 
 		public override void SetVirtualView(IView view)
@@ -31,7 +25,8 @@ namespace Microsoft.Maui.Handlers
 			_ = VirtualView ?? throw new InvalidOperationException($"{nameof(VirtualView)} should have been set by base class.");
 
 			NativeView.View = view;
-			NativeView.CrossPlatformArrange = VirtualView.Arrange;
+			NativeView.CrossPlatformMeasure = VirtualView.CrossPlatformMeasure;
+			NativeView.CrossPlatformArrange = VirtualView.CrossPlatformArrange;
 		}
 
 		void UpdateContent()
