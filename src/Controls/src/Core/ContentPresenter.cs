@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Layouts;
 
 namespace Microsoft.Maui.Controls
 {
@@ -96,29 +97,12 @@ namespace Microsoft.Maui.Controls
 
 		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
 		{
-			var root = (this as IContentView).PresentedContent;
-			var padding = Padding;
-
-			var contentSize = Size.Zero;
-
-			if (root != null)
-			{
-				contentSize = root.Measure(widthConstraint, heightConstraint);
-			}
-
-			return contentSize.AddPadding(padding);
+			return this.MeasureContent(widthConstraint, heightConstraint);
 		}
 
 		Size IContentView.CrossPlatformArrange(Rectangle bounds)
 		{
-			if ((this as IContentView).PresentedContent is IView view)
-			{
-				var padding = Padding;
-
-				_ = view.Arrange(new Rectangle(padding.Left, padding.Top,
-					bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness));
-			}
-
+			this.ArrangeContent(bounds);
 			return bounds.Size;
 		}
 	}
