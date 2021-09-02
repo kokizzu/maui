@@ -13,7 +13,7 @@ namespace Microsoft.Maui.Controls
 		public ContentPresenter()
 		{
 			SetBinding(ContentProperty, new Binding(ContentProperty.PropertyName, source: RelativeBindingSource.TemplatedParent,
-				converter: new ContentConverter()));
+				converterParameter: this, converter: new ContentConverter()));
 		}
 
 		public View Content
